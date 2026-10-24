@@ -1,0 +1,41 @@
+<main class="container">
+  <header class="cabecalho">
+    <h1>Lista de Tarefas</h1>
+    <p class="subtitulo">Angular + Spring Boot</p>
+  </header>
+
+  <div class="formulario">
+    <input
+      #campo
+      type="text"
+      placeholder="O que você precisa fazer?"
+      maxlength="100"
+      (keyup.enter)="adicionar(campo)"
+    />
+    <button type="button" (click)="adicionar(campo)">Adicionar</button>
+  </div>
+
+  @if (erro()) {
+    <p class="erro">{{ erro() }}</p>
+  }
+
+  <p class="contador">{{ pendentes() }} pendente(s) de {{ tarefas().length }}</p>
+
+  <ul class="lista">
+    @for (tarefa of tarefas(); track tarefa.id) {
+      <li class="item" [class.concluida]="tarefa.concluida">
+        <label>
+          <input
+            type="checkbox"
+            [checked]="tarefa.concluida"
+            (change)="alternar(tarefa)"
+          />
+          <span>{{ tarefa.titulo }}</span>
+        </label>
+        <button class="excluir" type="button" (click)="excluir(tarefa)">Excluir</button>
+      </li>
+    } @empty {
+      <li class="vazio">Nenhuma tarefa por aqui. Adicione a primeira!</li>
+    }
+  </ul>
+</main>
